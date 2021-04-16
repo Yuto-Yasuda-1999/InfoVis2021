@@ -1,0 +1,124 @@
+<html>
+
+    <head>
+
+        <title>W02: Example 08</title>
+
+    </head>
+    <body>
+
+        <p>Please input v0 :</p>
+        <input type="text" value="0" id="x0"/>
+        <input type="text" value="0" id="y0"/>
+        <input type="text" value="0" id="z0"/>
+       
+        <p id="p0"></p>
+
+        <p>Please input v1 :</p>
+        <input type="text" value="0" id="x1"/>
+        <input type="text" value="0" id="y1"/>
+        <input type="text" value="0" id="z1"/>
+        
+        <p id="p1"></p>
+
+        <p>Please input v2 :</p>
+        <input type="text" value="0" id="x2"/>
+        <input type="text" value="0" id="y2"/>
+        <input type="text" value="0" id="z2"/>
+        
+        <p id="p2"></p>
+
+        
+
+        
+
+        <input type="button" value="Calculate the area of a triangle" onclick="AreaOfTriangle()"/>
+        <p id="p3"></p>
+        
+
+        <script src="vec3.js"></script>
+        <script>
+            
+            function distance(a, b){
+                xx = Math.pow(a.x - b.x,2)
+                yy = Math.pow(a.y - b.y,2)
+                zz = Math.pow(a.z - b.z,2)
+                return Math.pow(xx+yy+zz,1/2)
+            }
+
+            function AreaOfTriangle(){
+                const x0 = document.getElementById("x0").value;
+                const y0 = document.getElementById("y0").value;       
+                const z0 = document.getElementById("z0").value;
+
+                const v0 = new Vec3( x0, y0, z0 );
+
+                var message;
+                message = document.getElementById("p0");
+                message.innerHTML = "";
+                try { 
+                    if(x0 == "" | y0 == "" | z0 == "")  throw "empty";
+                    if(isNaN(x0) | isNaN(y0) | isNaN(z0)) throw "not a number";
+                    throw "( " + x0 +" , "+ y0 +" , "+ z0+" )"
+                }
+                catch(err) {
+                    message.innerHTML = "Input is " + err;
+                } 
+
+                const x1 = document.getElementById("x1").value;
+                const y1 = document.getElementById("y1").value;       
+                const z1 = document.getElementById("z1").value;
+
+                const v1 = new Vec3( x1, y1, z1 );
+
+                var message;
+                message = document.getElementById("p1");
+                message.innerHTML = "";
+                try { 
+                    if(x1 == "" | y1 == "" | z1 == "")  throw "empty";
+                    if(isNaN(x1) | isNaN(y1) | isNaN(z1)) throw "not a number";
+                    throw "( " + x1 +" , "+ y1 +" , "+ z1 +" )"
+                }
+                catch(err) {
+                    message.innerHTML = "Input is " + err;
+                } 
+
+                const x2 = document.getElementById("x2").value;
+                const y2 = document.getElementById("y2").value;       
+                const z2 = document.getElementById("z2").value;
+
+                const v2 = new Vec3( x2, y2, z2 );
+
+                var message;
+                message = document.getElementById("p2");
+                message.innerHTML = "";
+                try { 
+                    if(x2 == "" | y2 == "" | z2 == "")  throw "empty";
+                    if(isNaN(x2) | isNaN(y2) | isNaN(z2)) throw "not a number";
+                    throw "( " + x2 +" , "+ y2 +" , "+ z2 +" )"
+                }
+                catch(err) {
+                    message.innerHTML = "Input is " + err;
+                } 
+
+                message = document.getElementById("p3");
+                var dist_ab = distance(v0,v1)
+                var dist_bc = distance(v1,v2)
+                var dist_ca = distance(v2,v0)
+                var s = (dist_ab + dist_bc + dist_ca)/2
+
+                var S = Math.pow(s*(s-dist_ab)*(s-dist_bc)*(s-dist_ca),1/2)
+                S = Math.round(S*100)/100
+                
+                message.innerHTML = "Area of triangle is " + S;
+
+
+            }
+
+            
+        </script>
+
+
+    </body>
+
+</html>
