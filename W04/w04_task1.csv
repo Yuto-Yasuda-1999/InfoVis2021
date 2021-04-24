@@ -1,6 +1,6 @@
 x,y,r,color,stroke,stroke-w
 20,20,10,red,green,3
-100,50,10,blue,red,5
-70,80,10,yellow,blue,7
-170,30,10,green,pink,10
-150,70,10,pink,yellow,12
+100,50,30,blue,red,5
+70,80,5,yellow,blue,7
+170,30,40,green,pink,10
+150,70,70,pink,yellow,12
