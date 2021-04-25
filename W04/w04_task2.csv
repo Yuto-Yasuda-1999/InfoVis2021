@@ -1,12 +1,11 @@
-Dog,Num
-MIX,183
-Chihuahua,174
-Miniature Dchshund,154
-Toy Poodle,147
-Shiba,104
-Papillon,43
-Yorkshire Terrier,42
-Shih Tzu,38
-Pomeranian,28
-Beagle,
-,27
+Dog,Num,Color
+MIX,183,red
+Chihuahua,174,red
+Miniature Dchshund,154,blue
+Toy Poodle,147,blue
+Shiba,104,green
+Papillon,43,green
+Yorkshire Terrier,42,yellow
+Shih Tzu,38,yellow
+Pomeranian,28,pink
+Beagle,27,pink
