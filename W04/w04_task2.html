@@ -1,11 +1,11 @@
 
 <html>
     <head>
-        <title>W04: task1</title>
+        <title>W04: task2</title>
     </head>
 
     <body>
-
+    <p>日本で飼われている犬種ランキングTOP10</p>
     <!DOCTYPE html>
     <meta charset="utf-8">
 
@@ -35,7 +35,7 @@
         
         // Add X axis
         var x = d3.scaleLinear()
-            .domain([0, 4000])
+            .domain([0, 200])
             .range([ 0, width]);
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -47,7 +47,7 @@
         // Y axis
         var y = d3.scaleBand()
             .range([ 0, height ])
-            .domain(data.map(function(d) { return d.Company; }))
+            .domain(data.map(function(d) { return d.Dog; }))
             .padding(.1);
         svg.append("g")
             .call(d3.axisLeft(y))
@@ -58,8 +58,8 @@
             .enter()
             .append("rect")
             .attr("x", x(0) )
-            .attr("y", function(d) { return y(d.Company); })
-            .attr("width", function(d) { return x(d.Salary); })
+            .attr("y", function(d) { return y(d.Dog); })
+            .attr("width", function(d) { return x(d.Num); })
             .attr("height", y.bandwidth() )
             .attr("fill", "#69b3a2")
         
