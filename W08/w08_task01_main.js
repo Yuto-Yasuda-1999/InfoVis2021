@@ -69,7 +69,7 @@ class BarChart {
             .style("font-size", 20);
 
         self.xscale = d3.scaleLinear()
-            .domain([0, d3.max(self.data, d => d.Num)])
+            .domain([0, d3.max(self.data, d => Number(d.Num))])
             .range( [1, self.inner_width] );
 
         self.yscale = d3.scaleBand()
