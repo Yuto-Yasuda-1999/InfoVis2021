@@ -1,29 +1,29 @@
-d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/W06/w06_task1.csv")
+d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/W04/w04_task2.csv")
     .then( data => {
-        data.forEach( d => { d.x = +d.x; d.y = +d.y; });
-
+        
+        
         var config = {
             parent: '#drawing_region',
             width: 512,
-            height: 512,
-            margin: {top:100, right:20, bottom:100, left:100}
+            height: 256,
+            margin: {top:50, right:10, bottom:50, left:150}
         };
 
-        const scatter_plot = new ScatterPlot( config, data );
-        scatter_plot.update();
+        const bar_chart = new BarChart( config, data );
+        bar_chart.update();
     })
     .catch( error => {
         console.log( error );
     });
 
-class ScatterPlot {
+class BarChart {
 
     constructor( config, data ) {
         this.config = {
             parent: config.parent,
             width: config.width || 256,
             height: config.height || 256,
-            margin: config.margin || {top:10, right:10, bottom:10, left:10}
+            margin: config.margin || {top:10, right:10, bottom:20, left:60}
         }
         this.data = data;
         this.init();
@@ -47,31 +47,33 @@ class ScatterPlot {
             .attr("text-anchor", "end")
             .attr("x", (self.config.width-self.config.margin.left)/2 + self.config.margin.left )
             .attr("y", self.config.margin.top/2)
-            .text("Title")
+            .text("Keep Dogs")
             .attr('stroke', 'green')
             .style("font-size", 30);
 
         //Xlabel
         self.svg.append("text")
             .attr("text-anchor", "end")
-            .attr("x", (self.config.width-self.config.margin.left)/2 + self.config.margin.left )
-            .attr("y", self.config.height - self.config.margin.bottom/2)
-            .text("X")
+            .attr("x", (self.config.width-self.config.margin.left)/2 + 1.5*self.config.margin.left  )
+            .attr("y", self.config.height )
+            .text("Number of breeders")
             .style("font-size", 20);
         
         //Ylabel
         self.svg.append("text")
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .attr("y",  self.config.margin.left/2 )
+            .attr("y",  self.config.margin.left /4)
             .attr("x", (-self.config.height + self.config.margin.bottom + self.config.margin.top)/2 - self.config.margin.top)
-            .text("Y")
+            .text("Dog")
             .style("font-size", 20);
 
         self.xscale = d3.scaleLinear()
+            .domain([0, d3.max(self.data, d => d.Num)])
             .range( [1, self.inner_width] );
 
-        self.yscale = d3.scaleLinear()
+        self.yscale = d3.scaleBand()
+            .domain(self.data.map(d => d.Dog))
             .range( [self.inner_height , 0] );
 
         self.xaxis = d3.axisBottom( self.xscale )
@@ -86,22 +88,21 @@ class ScatterPlot {
             .tickSize([5]);
             
         self.yaxis_group = self.chart.append('g')
-
+            
         
     }
 
     update() {
         let self = this;
 
-        const xmin = d3.min( self.data, d => d.x );
-        const xmax = d3.max( self.data, d => d.x );
-        console.log(xmax)
-        console.log(self.data)
-        self.xscale.domain( [xmin, xmax] );
-
-        const ymin = d3.min( self.data, d => d.y );
-        const ymax = d3.max( self.data, d => d.y );
-        self.yscale.domain( [ ymin, ymax] );
+        const xmax = d3.max( self.data, d => Number(d.Num) );
+        //const xmin = d3.min( self.data, d => Number(d.Num) );
+        self.xscale.domain( [0, xmax] );
+        //console.log(xmax)
+        //console.log(xmin)
+        //console.log(self.data)
+        self.yscale.domain( self.data.map(d => d.Dog));
+        //console.log(self.data.map(d => d.Dog))
 
         self.render();
     }
@@ -109,13 +110,18 @@ class ScatterPlot {
     render() {
         let self = this;
 
-        self.chart.selectAll("circle")
+
+        //console.log(self.data)
+        self.chart.selectAll("rect")
             .data(self.data)
             .enter()
-            .append("circle")
-            .attr("cx", d => self.xscale( d.x ) )
-            .attr("cy", d => self.yscale( d.y ) )
-            .attr("r", d => d.r );
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", d => self.yscale(d.Dog))
+            .attr("width", d => self.xscale(d.Num))
+            .attr("height",  self.yscale.bandwidth())
+            .attr("fill", d => d.Color);
+
 
         self.xaxis_group
             .call( self.xaxis );
