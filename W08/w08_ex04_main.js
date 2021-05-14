@@ -19,9 +19,14 @@ var svg = d3.select('#drawing_region')
 const pie = d3.pie()
       .value( d => d.value );
 
+console.log(pie(data.value))
+
+
 const arc = d3.arc()
       .innerRadius(0)
       .outerRadius(radius);
+
+console.log(arc)
 
 svg.selectAll('pie')
     .data( pie(data) )
