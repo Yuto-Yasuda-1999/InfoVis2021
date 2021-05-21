@@ -116,13 +116,13 @@ class ScatterPlot {
             .attr("cx", d => self.xscale( d.x ) )
             .attr("cy", d => self.yscale( d.y ) )
             .attr("r", d => d.r )
-            .attr("fill", d => d.color);
+            .attr("fill", d =>d.color)
 
         circles
         .on('mouseover', (e,d) => {
             d3.select('#tooltip')
                 .style('opacity', 1)
-                .html(`<div class="tooltip-label">Position</div>(${d.x}, ${d.y})`);
+                .html(`<div class="tooltip-label">Position Radious</div>(${d.x}, ${d.y}) (${d.r})`)
         })
         .on('mousemove', (e) => {
             const padding = 10;
