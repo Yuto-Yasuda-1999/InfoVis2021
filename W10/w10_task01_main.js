@@ -9,13 +9,52 @@ d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/W10/w10_task01.csv")
             margin: {top:50, right:10, bottom:50, left:150}
         };
         
+        const org_data = data;
+        console.log(org_data)
         const bar_chart = new BarChart( config, data );
+
+        
 
         d3.select('#reverse')
             .on('click', d => {
                 data.reverse();
-                bar_chart.update(data);
-    });
+                bar_chart.update(data);})
+        
+        d3.select('#random')
+            .on('click', d => {
+                data.sort(
+                    function() {
+                        return Math.random() - 0.5;});
+                bar_chart.update(data);})
+
+        d3.select('#descend')
+        .on('click', d => {
+            data.sort(function(first, second){
+                if (Number(first.Num) > Number(second.Num)){
+                  return 1;
+                }else if (Number(first.Num) < Number(second.Num)){
+                  return -1;
+                }else{
+                  return 0;
+                }
+              });
+            
+            bar_chart.update(data);})
+
+        d3.select('#ascend')
+        .on('click', d => {
+            data.sort(function(first, second){
+                if (Number(first.Num) > Number(second.Num)){
+                  return 1;
+                }else if (Number(first.Num) < Number(second.Num)){
+                  return -1;
+                }else{
+                  return 0;
+                }
+              });
+            data.reverse();
+            bar_chart.update(data);})
+    
     })
     .catch( error => {
         console.log( error );
