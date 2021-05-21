@@ -62,6 +62,11 @@ class PieChart {
     render() {
         let self = this;
 
+        //詰まったこところメモ
+        //function(d)ではdata()でしているデータ限定になる
+        //なのでcolorとかをdata.Colorでしても無理で
+        //新しくできたself.pie(self.data)の要素のdataの要素のcolorという風にアクセスする
+
         console.log(self.pie(self.data))
         self.svg.selectAll("pie")
             .data(self.pie(self.data))
