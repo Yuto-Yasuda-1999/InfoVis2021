@@ -39,7 +39,7 @@ function draw(str) {
     var getCSV = d3.dsv(',', 'text/csv; charset=shift_jis');
     getCSV( "https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
         // CSVのデータから最小値と最大値を取得（色の定義域）
-        console.log(data)
+        //console.log(data)
         color.domain([
             d3.min(data, function (d) {
                 return Number(d.value);
@@ -49,7 +49,7 @@ function draw(str) {
             })
         ]);
         // JSONデータ取得
-        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/japan.topojson", function (jpn) {
+        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/ne_10m_admin_1_states_provinces.geo.json", function (jpn) {
             // JSONの座標データとCSVデータを連携
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
@@ -58,15 +58,16 @@ function draw(str) {
                     var jsonState = jpn.features[j].properties.name_local;
                     if (dataState == jsonState) {
                         jpn.features[j].properties.value = dataValue;
-                        console.log(dataState)
                         break;
                     }
                 }
             }
+            //console.log(jpn.features)
 
             // HTMLの要素とJSONデータを連携（初回はPATH要素が無いのでenterセレクションに保管される）
             var map = svg.selectAll("path")
                     .data(jpn.features);
+            console.log(map)
 
             if (init) {
                 map.enter() // enterセレクションに保管
