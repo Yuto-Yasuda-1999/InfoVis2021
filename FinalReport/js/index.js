@@ -36,7 +36,7 @@ function draw(str) {
     $loading.style('display', 'block');
     // CSVデータ取得
     // "/js" + str + ".csv"
-    d3.csv( "https://yuto-yasuda-1999.github.io/InfoVis2021/W06/w06_task1.csv", function (data){
+    d3.csv( "https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
         // CSVのデータから最小値と最大値を取得（色の定義域）
         console.log(data)
         color.domain([
