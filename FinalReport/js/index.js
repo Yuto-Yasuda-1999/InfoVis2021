@@ -39,6 +39,7 @@ function draw(str) {
     var getCSV = d3.dsv(',', 'text/csv; charset=shift_jis');
     getCSV( "https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
         // CSVのデータから最小値と最大値を取得（色の定義域）
+        console.log(data)
         color.domain([
             d3.min(data, function (d) {
                 return Number(d.value);
@@ -48,17 +49,16 @@ function draw(str) {
             })
         ]);
         // JSONデータ取得
-        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/japan.geojson", function (jpn) {
-            console.log(jpn)
+        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/japan.topojson", function (jpn) {
             // JSONの座標データとCSVデータを連携
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
                 var dataValue = parseFloat(data[i].value);
                 for (var j = 0; j < jpn.features.length; j++) {
-                    console.log(jpn.features.length)
                     var jsonState = jpn.features[j].properties.name_local;
                     if (dataState == jsonState) {
                         jpn.features[j].properties.value = dataValue;
+                        console.log(dataState)
                         break;
                     }
                 }
