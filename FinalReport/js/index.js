@@ -17,17 +17,16 @@ var svg = $body
     });
 
 // 投影法の指定
-var projectionOption = d3.geo.mercator()
+var projectionOption = d3.geoMercator()
 	.center([137, 35])				// 中心の座標を指定
-	.scale(1800)					// スケール（ズーム）の指定
+	.scale(1500)					// スケール（ズーム）の指定
 	.translate([width  / 2, height  / 2]); // 移動する
 
-var projection = d3.geo.path().projection(projectionOption);
+var projection = d3.geoPath().projection(projectionOption);
 
 // 色の範囲を指定
-var color = d3.scale.quantize()
-    //.range(["rgb(51,51,255)","rgb(51,153,255)","rgb(51,255,255)","rgb(51,255,153)","rgb(51,255,51)","rgb(153,255,51)","rgb(255,255,51)"]);
-    .range(["rgb(255,255,51)","rgb(153,255,51)","rgb(51,255,51)","rgb(51,255,153)","rgb(51,255,255)","rgb(51,153,255)","rgb(51,51,255)"]);
+var color = d3.scaleQuantize()
+     .range(["rgb(255,255,51)","rgb(153,255,51)","rgb(51,255,51)","rgb(51,255,153)","rgb(51,255,255)","rgb(51,153,255)","rgb(51,51,255)"]);
 
 
 // 初期表示
@@ -37,32 +36,19 @@ draw('2020');
 function draw(str) {
     $loading.style('display', 'block');
     // CSVデータ取得
-    // "/js" + str + ".csv"
-    var getCSV = d3.dsv(',', 'text/csv; charset=shift_jis');
-    getCSV( "https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
-        // CSVのデータから最小値と最大値を取得（色の定義域）
-        //console.log(data)
-        color.domain([
-            d3.min(data, function (d) {
-                return 950;
-            }),
-            d3.max(data, function (d) {
-                return 3500;
-            })
-        ]);
+    d3.csv( "https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
+        //地図版画
+        color.domain([950,3500]);
         // JSONデータ取得
         d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/ne_10m_admin_1_states_provinces.geo.json", function (jpn) {
             // JSONの座標データとCSVデータを連携
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
                 var dataValue = parseFloat(data[i].value);
-                console.log(jpn.features[5].properties.value)
                 for (var j = 0; j < jpn.features.length; j++) {
-                    var jsonState = jpn.features[j].properties.name_local;
+                    var jsonState = jpn.features[j].properties.name_ja;
                     if (dataState == jsonState) {
                         jpn.features[j].properties.value = dataValue;
-                        console.log(jsonState)
-                        console.log(dataState)
                         break;
                     }
                 }
@@ -81,27 +67,7 @@ function draw(str) {
                         'stroke-width': '0.5',
                         'd': projection
                     })
-                    .style("fill", '#FFF4D5')
-                    .on("mouseover", function (d) {
-                    	if (d.properties.value) {
-	                        return $tooltip
-	                            .style("visibility", "visible")
-	                            .text(d.properties.name_local + "の出荷量：約" + d.properties.value + "トン");
-                    	} else {
-	                        return $tooltip
-	                            .style("visibility", "visible")
-	                            .text(d.properties.name_local + "の出荷量：データなし");
-                    	}
-                    })
-                    .on("mousemove", function (d) {
-                        return $tooltip
-                            .style("top", (event.pageY - 20) + "px")
-                            .style("left", (event.pageX + 10) + "px");
-                    })
-                    .on("mouseout", function (d) {
-                        return $tooltip
-                            .style("visibility", "hidden");
-                    });
+                    
                 init = false;
             }
 
@@ -117,6 +83,20 @@ function draw(str) {
                     }
                 })
         });
+        //berchart版画
+        console.log(data)
+        const color_scale = d3.scaleOrdinal( d3.schemeCategory10 );
+        color_scale.domain(['0 ~ 1000','1000 ~ 2000','2000 ~ 3000','3000 ~ 4000','4000 ~']);
+        bar_chart = new BarChart( {
+            parent: '#drawing_region_barchart',
+            width: 256,
+            height: 256,
+            margin: {top:10, right:10, bottom:50, left:50},
+            xlabel: 'Amount',
+            cscale: color_scale
+        }, data );
+        bar_chart.update();
+    
     });
 }
 
