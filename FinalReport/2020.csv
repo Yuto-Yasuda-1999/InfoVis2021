@@ -1,5 +1,5 @@
 State,value,amount
-Hokkaido,905,0
+Hokkaid?,905,0
 Aomori,1417,1
 Iwate,1462,1
 Miyagi,1247,1
@@ -7,8 +7,8 @@ Akita,2023,2
 Yamagata,1284,1
 Fukushima,1225,1
 Ibaraki,1422,1
-Tochigi,1254,1
-Gumma,1316,1
+Totigi,1254,1
+Gunma,1316,1
 Saitama,1274,1
 Chiba,1792,1
 Tokyo,1590,1
@@ -24,9 +24,9 @@ Shizuoka,2614,2
 Aichi,1711,1
 Mie,1787,1
 Shiga,1645,1
-Kyoto,1644,1
-Osaka,1522,1
-Hyogo,1615,1
+Ky?to,1644,1
+?saka,1522,1
+Hy?go,1615,1
 Nara,1629,1
 Wakayama,1658,1
 Tottori,2096,2
@@ -42,7 +42,7 @@ Fukuoka,2213,2
 Saga,2876,2
 Nagasaki,2709,2
 Kumamoto,2467,2
-Oita,1860,1
+?ita,1860,1
 Miyazaki,2279,2
 Kagoshima,2977,2
 Okinawa,2481,2
