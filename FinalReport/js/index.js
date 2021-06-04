@@ -56,6 +56,7 @@ function draw(str) {
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
                 var dataValue = parseFloat(data[i].value);
+                console.log(jpn.features[5].properties.value)
                 for (var j = 0; j < jpn.features.length; j++) {
                     var jsonState = jpn.features[j].properties.name_local;
                     if (dataState == jsonState) {
