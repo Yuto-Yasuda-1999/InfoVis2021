@@ -58,11 +58,10 @@ function draw(str) {
                 var dataValue = parseFloat(data[i].value);
                 for (var j = 0; j < jpn.features.length; j++) {
                     var jsonState = jpn.features[j].properties.name;
-                    console.log(jsonState)
                     if (dataState == jsonState) {
-                        console.log(dataState)
-                        console.log(jsonState)
                         jpn.features[j].properties.value = dataValue;
+                        console.log(jsonState)
+                        console.log(dataState)
                         break;
                     }
                 }
