@@ -6,6 +6,7 @@ let filter = [];
 d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W12/iris.csv")
     .then( data => {
         input_data = data;
+        console.log(input_data)
         input_data.forEach( d => {
             d.sepal_length = +d.sepal_length;
             d.sepal_width = +d.sepal_width;

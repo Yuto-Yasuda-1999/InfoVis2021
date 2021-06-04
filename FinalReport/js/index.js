@@ -36,7 +36,8 @@ draw('2020');
 function draw(str) {
     $loading.style('display', 'block');
     // CSVデータ取得
-    d3.csv( "https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
+    d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
+        console.log(data[6])
         //地図版画
         color.domain([950,3500]);
         // JSONデータ取得
@@ -84,18 +85,17 @@ function draw(str) {
                 })
         });
         //berchart版画
-        console.log(data)
-        const color_scale = d3.scaleOrdinal( d3.schemeCategory10 );
-        color_scale.domain(['0 ~ 1000','1000 ~ 2000','2000 ~ 3000','3000 ~ 4000','4000 ~']);
-        bar_chart = new BarChart( {
-            parent: '#drawing_region_barchart',
-            width: 256,
-            height: 256,
-            margin: {top:10, right:10, bottom:50, left:50},
-            xlabel: 'Amount',
-            cscale: color_scale
-        }, data );
-        bar_chart.update();
+        // const color_scale = d3.scaleOrdinal( d3.schemeCategory10 );
+        // color_scale.domain(['0 ~ 1000','1000 ~ 2000','2000 ~ 3000','3000 ~ 4000','4000 ~']);
+        // bar_chart = new BarChart( {
+        //     parent: '#drawing_region_barchart',
+        //     width: 256,
+        //     height: 256,
+        //     margin: {top:10, right:10, bottom:50, left:50},
+        //     xlabel: 'Amount',
+        //     cscale: color_scale
+        // }, data );
+        // bar_chart.update();
     
     });
 }

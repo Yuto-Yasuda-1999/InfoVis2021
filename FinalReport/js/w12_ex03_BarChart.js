@@ -67,7 +67,7 @@ class BarChart {
 
     update() {
         let self = this;
-        console.log(self.data)
+        //console.log(self.data)
         const data_map = d3.rollup( self.data, v => v.length, d => d.amount );
         self.aggregated_data = Array.from( data_map, ([key,count]) => ({key,count}) );
 

@@ -10,6 +10,7 @@ class BarChart {
             cscale: config.cscale
         };
         this.data = data;
+        console.log(data)
         this.init();
     }
 
