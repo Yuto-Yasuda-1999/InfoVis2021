@@ -51,17 +51,18 @@ function draw(str) {
             })
         ]);
         // JSONデータ取得
-        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/japan.json", function (jpn) {
+        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/ne_10m_admin_1_states_provinces.geo.json", function (jpn) {
             // JSONの座標データとCSVデータを連携
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
                 var dataValue = parseFloat(data[i].value);
                 for (var j = 0; j < jpn.features.length; j++) {
-                    var jsonState = jpn.features[j].properties.name_local;
+                    var jsonState = jpn.features[j].properties.name;
                     console.log(jsonState)
                     if (dataState == jsonState) {
-                        jpn.features[j].properties.value = dataValue;
                         console.log(dataState)
+                        console.log(jsonState)
+                        jpn.features[j].properties.value = dataValue;
                         break;
                     }
                 }
@@ -80,12 +81,32 @@ function draw(str) {
                         'stroke-width': '0.5',
                         'd': projection
                     })
-                    
+                    .style("fill", '#FFF4D5')
+                    .on("mouseover", function (d) {
+                    	if (d.properties.value) {
+	                        return $tooltip
+	                            .style("visibility", "visible")
+	                            .text(d.properties.name_local + "の出荷量：約" + d.properties.value + "トン");
+                    	} else {
+	                        return $tooltip
+	                            .style("visibility", "visible")
+	                            .text(d.properties.name_local + "の出荷量：データなし");
+                    	}
+                    })
+                    .on("mousemove", function (d) {
+                        return $tooltip
+                            .style("top", (event.pageY - 20) + "px")
+                            .style("left", (event.pageX + 10) + "px");
+                    })
+                    .on("mouseout", function (d) {
+                        return $tooltip
+                            .style("visibility", "hidden");
+                    });
                 init = false;
             }
 
             map.transition()
-                .duration(700)
+                .duration(400)
                 .style("fill", function (d) {
                     $loading.style('display', 'none');
                     var value = d.properties.value;
