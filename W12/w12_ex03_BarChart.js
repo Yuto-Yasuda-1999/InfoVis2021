@@ -80,6 +80,7 @@ class BarChart {
 
         const items = self.aggregated_data.map( self.xvalue );
         self.xscale.domain(items);
+        console.log(items)
 
         const ymin = 0;
         const ymax = d3.max( self.aggregated_data, self.yvalue );
