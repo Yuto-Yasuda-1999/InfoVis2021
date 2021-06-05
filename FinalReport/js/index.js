@@ -17,15 +17,15 @@ var svg = $body
     });
 
 // 投影法の指定
-var projectionOption = d3.geoMercator()
+var projectionOption = d3.geo.mercator()
 	.center([137, 35])				// 中心の座標を指定
 	.scale(1500)					// スケール（ズーム）の指定
 	.translate([width  / 2, height  / 2]); // 移動する
 
-var projection = d3.geoPath().projection(projectionOption);
+var projection = d3.geo.path().projection(projectionOption);
 
 // 色の範囲を指定
-var color = d3.scaleQuantize()
+var color = d3.scale.quantize()
      .range(["rgb(255,255,51)","rgb(153,255,51)","rgb(51,255,51)","rgb(51,255,153)","rgb(51,255,255)","rgb(51,153,255)","rgb(51,51,255)"]);
 
 
@@ -46,10 +46,11 @@ function draw(str) {
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
                 var dataValue = parseFloat(data[i].value);
+                //console.log(dataState)
                 for (var j = 0; j < jpn.features.length; j++) {
                     var jsonState = jpn.features[j].properties.name;
-                        console.log(jsonState)
                     if (dataState == jsonState) {
+                        //console.log(jsonState)
                         jpn.features[j].properties.value = dataValue;
                         break;
                     }
@@ -86,17 +87,17 @@ function draw(str) {
                 })
         });
         //berchart版画
-        // const color_scale = d3.scaleOrdinal( d3.schemeCategory10 );
-        // color_scale.domain(['0 ~ 1000','1000 ~ 2000','2000 ~ 3000','3000 ~ 4000','4000 ~']);
-        // bar_chart = new BarChart( {
-        //     parent: '#drawing_region_barchart',
-        //     width: 256,
-        //     height: 256,
-        //     margin: {top:10, right:10, bottom:50, left:50},
-        //     xlabel: 'Amount',
-        //     cscale: color_scale
-        // }, data );
-        // bar_chart.update();
+        const color_scale = d3.scale.ordinal( d3.schemeCategory10 );
+        color_scale.domain(['0 ~ 1000','1000 ~ 2000','2000 ~ 3000','3000 ~ 4000','4000 ~']);
+        bar_chart = new BarChart( {
+            parent: '#drawing_region_barchart',
+            width: 256,
+            height: 256,
+            margin: {top:10, right:10, bottom:50, left:50},
+            xlabel: 'Amount',
+            cscale: color_scale
+        }, data );
+        bar_chart.update();
     
     });
 }

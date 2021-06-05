@@ -26,21 +26,24 @@ class BarChart {
         self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
-        self.xscale = d3.scaleBand()
-            .range([0, self.inner_width])
-            .paddingInner(0.2)
-            .paddingOuter(0.1);
+        self.xscale = d3.scale.ordinal()
+            .rangeRoundBands([0, self.inner_width])
 
-        self.yscale = d3.scaleLinear()
+        self.yscale = d3.scale.linear()
             .range([self.inner_height, 0]);
 
-        self.xaxis = d3.axisBottom(self.xscale)
-            .ticks(['0','1','2','3','4'])
-            .tickSizeOuter(0);
-
-        self.yaxis = d3.axisLeft(self.yscale)
+        self.xaxis = d3.svg.axis()
+            .scale(self.xscale)
+            .orient("bottom")
             .ticks(5)
-            .tickSizeOuter(0);
+            
+
+        self.yaxis = d3.svg.axis()
+            .scale(self.xscale)
+            .orient("left")
+            .ticks(5)
+    
+            
 
         self.xaxis_group = self.chart.append('g')
             .attr('transform', `translate(0, ${self.inner_height})`);
