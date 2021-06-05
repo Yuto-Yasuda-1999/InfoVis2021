@@ -50,7 +50,7 @@ function draw(str) {
                 for (var j = 0; j < jpn.features.length; j++) {
                     var jsonState = jpn.features[j].properties.name;
                     if (dataState == jsonState) {
-                        //console.log(jsonState)
+                        console.log(jsonState)
                         jpn.features[j].properties.value = dataValue;
                         break;
                     }
