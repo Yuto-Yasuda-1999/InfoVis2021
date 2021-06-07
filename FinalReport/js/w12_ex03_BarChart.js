@@ -4,10 +4,9 @@ class BarChart {
             parent: config.parent,
             width: config.width || 256,
             height: config.height || 256,
-            margin: config.margin || {top:10, right:10, bottom:10, left:10},
-            xlabel: config.xlabel || '',
-            ylabel: config.ylabel || '',
-            cscale: config.cscale
+            margin: config.margin || {top:10, right:30, bottom:10, left:30},
+            xlabel: config.xlabel || '降水量',
+            ylabel: config.ylabel || '度数',
         };
         this.data = data;
         this.init();
@@ -27,7 +26,7 @@ class BarChart {
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
         self.xscale = d3.scale.ordinal()
-            .rangeRoundBands([0, self.inner_width])
+            .rangeRoundBands([0, self.inner_width],.1)
 
         self.yscale = d3.scale.linear()
             .range([self.inner_height, 0]);
@@ -39,7 +38,7 @@ class BarChart {
             
 
         self.yaxis = d3.svg.axis()
-            .scale(self.xscale)
+            .scale(self.yscale)
             .orient("left")
             .ticks(5)
     
@@ -52,14 +51,14 @@ class BarChart {
 
         const xlabel_space = 40;
         self.svg.append('text')
-            .style('font-size', '12px')
+            .style('font-size', '17px')
             .attr('x', self.config.width / 2)
             .attr('y', self.inner_height + self.config.margin.top + xlabel_space)
             .text( self.config.xlabel );
 
         const ylabel_space = 50;
         self.svg.append('text')
-            .style('font-size', '12px')
+            .style('font-size', '17px')
             .attr('transform', `rotate(-90)`)
             .attr('y', self.config.margin.left - ylabel_space)
             .attr('x', -(self.config.height / 2))
@@ -70,7 +69,7 @@ class BarChart {
 
     update() {
         let self = this;
-        console.log(self.data)
+        //console.log(self.data)
         //const data_map = d3.rollup( self.data, v => v.length, d => d.amount );
         self.data_map = d3.nest()
                 .key(function(d) { return d.amount; })
@@ -81,33 +80,36 @@ class BarChart {
         // console.log(self.aggregated_data)
 
         self.cvalue = d => d.key;
+        console.log(self.cvalue)
         self.xvalue = d => d.key;
+        console.log(self.xvalue)
         self.yvalue = d => d.values;
+        console.log(self.yvalue)
 
 
-        const items = self.data_map.map( self.xvalue );
-        self.xscale.domain(items);
-        console.log(items)
+        //const items = self.data_map.map( self.xvalue );
+        self.items = ["0","1","2","3"]
+        self.xscale.domain(self.items);
+        console.log(self.items)
 
-        const ymin = 0;
-        const ymax = d3.max( self.data_map, self.yvalue );
-        self.yscale.domain([ymin, ymax]);
-        console.log(ymax)
+        self.yscale.domain([0, 47]);
+        //console.log(ymax)
 
         self.render();
     }
 
     render() {
         let self = this;
-
+        
         self.chart.selectAll(".bar")
-            .data(self.data_map)
-            .enter().append("rect")
-            .attr("x", d => self.xscale( self.xvalue(d) ) )
-            .attr("y", d => self.yscale( self.yvalue(d) ) )
-            .attr("width", self.xscale.rangeBand())
-            .attr("height", d => self.inner_height - self.yscale( self.yvalue(d) ))
-            .attr("fill", d => self.config.cscale( self.cvalue(d) ));
+                .data(self.data_map)
+                .enter()
+                .append("rect")
+                .attr("x", d => self.xscale( self.xvalue(d) ) )
+                .attr("y", d => self.yscale( self.yvalue(d) ))
+                .attr("width", self.xscale.rangeBand()-30)
+                .attr("height", d => self.inner_height - self.yscale( self.yvalue(d) ))
+                .attr("fill", "#6495ed")
 
         self.xaxis_group
             .call(self.xaxis);
@@ -115,4 +117,6 @@ class BarChart {
         self.yaxis_group
             .call(self.yaxis);
     }
+
+    
 }

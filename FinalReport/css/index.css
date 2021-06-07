@@ -9,6 +9,12 @@ body {
 	font-family:'ãƒ¡ã‚¤ãƒªã‚ª', Meiryo, Arial, "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯", sans-serif;
 }
 
+#drawing_resion_map {
+	position: relative;
+	background-color: #FFF;
+	font-family:'ãƒ¡ã‚¤ãƒªã‚ª', Meiryo, Arial, "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯", sans-serif;
+}
+
 .container {
 	display: flex;}
 

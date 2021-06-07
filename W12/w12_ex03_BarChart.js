@@ -77,6 +77,8 @@ class BarChart {
         self.cvalue = d => d.key;
         self.xvalue = d => d.key;
         self.yvalue = d => d.count;
+        
+        
 
         const items = self.aggregated_data.map( self.xvalue );
         self.xscale.domain(items);
@@ -86,7 +88,10 @@ class BarChart {
         const ymax = d3.max( self.aggregated_data, self.yvalue );
         self.yscale.domain([ymin, ymax]);
 
+
         self.render();
+
+
     }
 
     render() {

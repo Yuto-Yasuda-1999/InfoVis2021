@@ -108,7 +108,7 @@ class ScatterPlot {
 
     render() {
         let self = this;
-
+        console.log(self.data)
         let circles = self.chart.selectAll("circle")
             .data(self.data)
             .enter()

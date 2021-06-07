@@ -3,18 +3,21 @@ var height = 650;
 var init = true;
 
 // 要素選択
-var $body = d3.select("body");
+//var $body = d3.select("body");
+//var $body = d3.select("#drawing_resion_map");
 var $tooltip = d3.select("#tooltip");
 var $loading = d3.select("#loading");
 var $item = d3.selectAll("#menu li");
 
 // SVG要素作成
-var svg = $body
-	.append("svg")
-	.attr({
-        'width': width,
-        'height': height
-    });
+// var svg = $body
+// 	.append("svg")
+// 	.attr('width', width)
+//     .attr('height', height);
+
+var svg = d3.select("#drawing_region_map")
+            .attr('width', width)
+            .attr('height', height);
 
 // 投影法の指定
 var projectionOption = d3.geo.mercator()
@@ -31,6 +34,7 @@ var color = d3.scale.quantize()
 
 // 初期表示
 draw('2020');
+draw_barchart('2020');
 
 // 描画用関数
 function draw(str) {
@@ -86,20 +90,25 @@ function draw(str) {
                     }
                 })
         });
-        //berchart版画
-        const color_scale = d3.scale.ordinal( d3.schemeCategory10 );
-        color_scale.domain(['0 ~ 1000','1000 ~ 2000','2000 ~ 3000','3000 ~ 4000','4000 ~']);
-        bar_chart = new BarChart( {
-            parent: '#drawing_region_barchart',
-            width: 256,
-            height: 256,
-            margin: {top:10, right:10, bottom:50, left:50},
-            xlabel: 'Amount',
-            cscale: color_scale
-        }, data );
-        bar_chart.update();
     
     });
+}
+
+function draw_barchart(str){
+
+    d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
+      //berchart版画
+      
+      bar_chart = new BarChart( {
+          parent: '#drawing_region_barchart',
+          width: 512,
+          height: 512,
+          margin: {top:10, right:10, bottom:50, left:50},
+          xlabel: '降水量',
+          ylabel:'都道府県度数',
+      }, data );
+      bar_chart.update();
+    })
 }
 
 // クリックイベント追加
@@ -108,6 +117,9 @@ $item.each( function(d, i) {
     $this.on("click", function () {
         $item.select("a").classed('on' ,false);
         $this.select("a").classed('on', true);
+        
         draw($this.attr("class"));
+        d3.select("#drawing_region_barchart").selectAll("g").remove();
+        draw_barchart($this.attr("class"));
     });
 });
