@@ -40,12 +40,12 @@ draw_barchart('2020');
 function draw(str) {
     $loading.style('display', 'block');
     // CSVデータ取得
-    d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
+    d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalTask/"+str+".csv", function (data){
         //console.log(data)
         //地図版画
         color.domain([950,3500]);
         // JSONデータ取得
-        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/js/ne_10m_admin_1_states_provinces.geo.json", function (jpn) {
+        d3.json("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalTask/js/ne_10m_admin_1_states_provinces.geo.json", function (jpn) {
             // JSONの座標データとCSVデータを連携
             for (var i = 0; i < data.length; i++) {
                 var dataState = data[i].state;
@@ -96,7 +96,7 @@ function draw(str) {
 
 function draw_barchart(str){
 
-    d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalReport/"+str+".csv", function (data){
+    d3.csv("https://yuto-yasuda-1999.github.io/InfoVis2021/FinalTask/"+str+".csv", function (data){
       //berchart版画
       
       bar_chart = new BarChart( {
